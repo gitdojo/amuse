@@ -1,0 +1,22 @@
+Purpose
+	Emulate the behavior of 100's of interactive users submitting database queries
+	in an arbitrary order with random think times to
+	a (typically) smaller number of interactive SQL client sessions.
+	It uses a simple configuration file to define classes of users, 
+	each with their own workload characteristics.
+Description
+	Uses python/pexpect to spawn a specified number of database clients.
+	Queues and threading are used to 'funnel' $N emulated users into $M sessions.
+Usage
+	amuse.py -f <conf-file> -r <run-secs> -v
+Output
+	Each emulated user records query names and response times in its own log file
+Sample conf file
+	db acquia_drupal
+	sqldir .
+	# Define 1st group (groupID=grp1; #users=10; #sessions=4; uname=root; pwd(optional))
+	group grp1 10 4 root
+	# Define queries for this group (query ID; query file; count; think-time(secs))
+	query q1 test1.sql 100 2
+	query q2 test2.sql  50 6
+	query q3 test3.sql  10 10
